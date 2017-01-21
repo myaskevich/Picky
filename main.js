@@ -1,20 +1,19 @@
-const { resolve } = require('path')
-const { app, Menu, Tray, clipboard } = require('electron')
+const { app, Menu, Tray, clipboard, dialog } = require('electron')
 
 const execa = require('execa')
 const rgbHex = require('rgb-hex')
 
 app.on('ready', () => {
-  const tray = new Tray('./assets/Icon.png')
+  const tray = new Tray(__dirname + '/assets/Icon.png')
   const contextMenu = Menu.buildFromTemplate([
-    {label: 'Quit', click() { app.quit() }},
+    {label: 'Quit Picky', click() { app.quit() }},
   ])
 
   tray.setToolTip('Picky')
 
   tray.on('click', () => {
-    const picker = execa('osascript', [resolve('./scripts/ChooseColor.scpt')])
-    let hex
+    let hex, error = ''
+    const picker = execa('osascript', [__dirname + '/scripts/ChooseColor.scpt'])
 
     picker.stdout.on('data', (data) => {
       const rgb = data
@@ -26,11 +25,17 @@ app.on('ready', () => {
       hex = rgbHex.apply(null, rgb)
     })
 
-    picker.on('error', console.error)
+    picker.stderr.on('data', (data) => {
+      error = data.toString()
+    })
 
     picker.on('exit', (code) => {
       if (hex && code === 0) {
         clipboard.writeText(`#${hex}`)
+      } else if (error && code !== 0) {
+        if (error.indexOf('User canceled. (-128)') === -1) {
+          dialog.showErrorBox('Error', String(error))
+        }
       }
     })
   })

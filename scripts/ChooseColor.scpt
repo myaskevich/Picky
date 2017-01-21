@@ -1,4 +1,4 @@
-tell application "Finder"
+tell application "Picky"
     activate
     choose color
 end tell

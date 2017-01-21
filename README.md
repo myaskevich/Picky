@@ -7,9 +7,10 @@ Native dumb-simple color picker
 - [ ] Linux
 
 ## How to use
-- Left-click app tray icon.
-- Native color selector dialog will pop up and let you choose any color you want.
-- Use right-click on tray icon to exit.
+- Left-click app tray icon
+- Native color selector dialog will pop up and let you choose any color you want
+- **Color hex will be in your clipboard buffer**
+- Use right-click on tray icon to exit
 
 Contributions to support other platforms are always welcome.
 
