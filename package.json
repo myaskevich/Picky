@@ -24,7 +24,10 @@
     "url": "https://github.com/myaskevich/Picky/issues"
   },
   "homepage": "https://github.com/myaskevich/Picky#readme",
-  "dependencies": {},
+  "dependencies": {
+    "execa": "^0.6.0",
+    "rgb-hex": "^2.1.0"
+  },
   "devDependencies": {
     "electron": "^1.4.15"
   }

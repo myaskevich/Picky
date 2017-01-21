@@ -1,16 +1,38 @@
-const {app, Menu, Tray} = require('electron')
+const { resolve } = require('path')
+const { app, Menu, Tray, clipboard } = require('electron')
 
-let tray = null
+const execa = require('execa')
+const rgbHex = require('rgb-hex')
 
 app.on('ready', () => {
-  tray = new Tray('./assets/Icon.png')
+  const tray = new Tray('./assets/Icon.png')
   const contextMenu = Menu.buildFromTemplate([
     {label: 'Quit', click() { app.quit() }},
   ])
+
   tray.setToolTip('Picky')
 
   tray.on('click', () => {
-    console.log('choose color');
+    const picker = execa('osascript', [resolve('./scripts/ChooseColor.scpt')])
+    let hex
+
+    picker.stdout.on('data', (data) => {
+      const rgb = data
+        .toString()
+        .split(', ')
+        .map(Number)
+        .map(n => n / 257)
+
+      hex = rgbHex.apply(null, rgb)
+    })
+
+    picker.on('error', console.error)
+
+    picker.on('exit', (code) => {
+      if (hex && code === 0) {
+        clipboard.writeText(`#${hex}`)
+      }
+    })
   })
 
   tray.on('right-click', () => {
