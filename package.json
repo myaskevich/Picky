@@ -2,8 +2,9 @@
   "name": "picky",
   "version": "0.0.1",
   "description": "Native dumb-simple color picker",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
+    "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,5 +23,9 @@
   "bugs": {
     "url": "https://github.com/myaskevich/Picky/issues"
   },
-  "homepage": "https://github.com/myaskevich/Picky#readme"
+  "homepage": "https://github.com/myaskevich/Picky#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^1.4.15"
+  }
 }
