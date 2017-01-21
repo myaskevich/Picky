@@ -7,7 +7,8 @@
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "pack": "build --dir",
-    "dist": "build"
+    "dist": "build",
+    "release": "build --publish onTag"
   },
   "repository": {
     "type": "git",
